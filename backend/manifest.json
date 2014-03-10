@@ -1,0 +1,27 @@
+{
+  "manifest_version": 2,
+  "name": "Tidepool chrome conduit",
+  "version": "0.0.0",
+  "description": "Connect diabetes devices to Tidepool",
+  
+  "author": "Tidepool contributors",
+  "app": {
+    "background": {  "scripts": ["background.js"] }
+  },
+
+  "short_name": "conduit-chrome",
+  "permissions": [
+    "usb", "serial", "notifications"
+  ],
+  "optional_permissions": [ {
+  "usbDevices": [ {
+    "vendorId": 1027,
+    "productId": 32568
+  } ] } ],
+  "externally_connectable": {
+    "ids": [ "*" ],
+    "matches": [ "http://localhost/*", "*://developer.chrome.com/*" ]
+  }
+
+}
+
