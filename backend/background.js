@@ -16,9 +16,25 @@ chrome.runtime.onConnect.addListener(function onConnect (event) {
 });
 chrome.runtime.onConnectExternal.addListener(function onConnect (port) {
   console.log('connected external', event, arguments);
-  port.onMessage.addListener(listener('port from onConnectExternal onMessage'));
+  port.onMessage.addListener(dispatcher);
   port.postMessage({'foo': 'bar'});
 });
+
+function dispatcher (msg, port) {
+  if (msg.cmd == 'find') {
+    var r = new RegExp(msg.matches || "*");
+    function matches (elem) {
+      console.log(elem);
+      return elem.match(r) ? elem : null;
+    }
+    chrome.serial.getPorts(function devices (devices) {
+      console.log('devices', devices[0]);
+      var matched = devices.filter(matches);
+      console.log('matkches', matched);
+      port.postMessage({ports: matched});
+    });
+  }
+}
 
 function listener (msg) {
   function onMessage (request, sender, sendResponse) {

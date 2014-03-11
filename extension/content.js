@@ -21,7 +21,10 @@ function dispatch (msg, port) {
     });
     console.log('found apps', apps);
     var master = chrome.runtime.connect(apps[0].id);
-    master.postMessage("find");
+    master.onMessage.addListener(function coordinator (cmd, P) {
+      console.log("XX", "list of devices??", arguments);
+    });
+    master.postMessage({cmd: "find", matches: ".*(AsantePorter|usb|USB|Carelink).*"});
 
   }
 
@@ -42,6 +45,6 @@ if (button.is('BUTTON')) {
 chrome.runtime.onMessage.addListener(listener('runtime onMessage'));
 chrome.runtime.onConnect.addListener(function onConnect (port) {
   console.log('connected', port, arguments);
-  port.onMessage.addListener(listener('port from onConnect onMessage'));
+  port.onMessage.addListener(listener('content port from onConnect onMessage'));
   port.postMessage({'foo': 'bar'});
 });
