@@ -1,10 +1,14 @@
 !!!
 - var scripts = getBlock('scripts')
+- var styles = getBlock('styles')
+- styles.add(document.styles)
 html(lang="en")
   head
     //- header
+    != styles.toHTML( )
   body
     div#main(role="main")
+      != content
 
   footer#footer
 

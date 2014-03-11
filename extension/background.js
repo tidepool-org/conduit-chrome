@@ -13,20 +13,15 @@ chrome.runtime.onSuspend.addListener(function onSuspend (event) {
 });
 chrome.runtime.onConnect.addListener(function onConnect (port) {
   console.log('connected', port);
-  port.onMessage.addListener(dispatch);
   chrome.management.getAll(function (result) {
+    console.log('sending list');
     port.postMessage({apps: result});
-  });
-});
-chrome.runtime.onConnectExternal.addListener(function onConnectExt (port) {
-  console.log('connected external', port);
-  port.onMessage.addListener(listener('port from onConnectExternal onMessage'));
-  chrome.management.getAll(function (result) {
-    port.postMessage({apps: result});
+    port.onMessage.addListener(dispatch);
   });
 });
 
 function dispatch (msg, port) {
+  console.log('from background content dispatch');
   if (msg.type == 'version') {
     chrome.management.getAll(function withApps (result) {
       port.postMessage({apps: result});

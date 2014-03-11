@@ -1,21 +1,28 @@
 ---
 title: 'Foo bar'
+styles: ['styles/example.css']
+layout: "default"
 ---
 
 h1 hello world
 
+
 :markdown
   # test title foo
 
-.supported.hidden
-  | Upload
+.tidepool-device-connect
+  .unsupported.hidden
+    :markdown
+      Unsupported, install
 
-.unsupported.hidden
-  :markdown
-    Unsupported, install
+  .supported.hidden
 
-button.tidepool-upload
-  | Upload to Tidepool
+    button.tidepool-upload
+      | Upload to Tidepool
+    ul.devices
+      li.template
+        span.name
+        img.vendor
 
 script(src="js/jquery.js", type="text/javascript")
 script(src="js/web.js", type="text/javascript")
