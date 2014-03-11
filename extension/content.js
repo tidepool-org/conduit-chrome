@@ -1,14 +1,5 @@
 console.log('from content script');
-console.log('from content script', 'runtime', chrome.runtime);
-console.log('from content script', 'app', chrome.app);
 var $ = require('jquery-browserify');
-
-chrome.runtime.onMessage.addListener(listener('runtime onMessage'));
-chrome.runtime.onConnect.addListener(function onConnect (port) {
-  console.log('connected', port, arguments);
-  port.onMessage.addListener(listener('port from onConnect onMessage'));
-  port.postMessage({'foo': 'bar'});
-});
 
 function listener (msg) {
   function onMessage (request, sender, sendResponse) {
@@ -20,18 +11,37 @@ function listener (msg) {
   return onMessage;
 }
 var port = chrome.runtime.connect( );
-port.postMessage({msg: "version port"});
+port.postMessage({type: "apps"});
 port.onMessage.addListener(dispatch);
-function dispatch (ev, port) {
-  console.log('dispatch', arguments);
+function dispatch (msg, port) {
+  console.log('dispatch', msg);
+  if (msg.apps) {
+    var apps = msg.apps.filter(function (elem) {
+      return elem.isApp && elem.shortName == "conduit-chrome";
+    });
+    console.log('found apps', apps);
+    var master = chrome.runtime.connect(apps[0].id);
+    master.postMessage("find");
+
+  }
 
 }
-
-var button = $('BUTTON.tidepool-upload');
-console.log(button);
-chrome.runtime.sendMessage({type: 'version'});
-button.on('click', function (ev) {
-  chrome.runtime.sendMessage({type: 'connect'});
-
+$(document).ready(function init ( ) {
+  console.log('doc ready');
+  port.postMessage({type: 'version'});
 });
 
+var button = $('BUTTON.tidepool-upload');
+if (button.is('BUTTON')) {
+  button.on('click', function (ev) {
+    chrome.runtime.sendMessage({type: 'connect'});
+
+  });
+}
+
+chrome.runtime.onMessage.addListener(listener('runtime onMessage'));
+chrome.runtime.onConnect.addListener(function onConnect (port) {
+  console.log('connected', port, arguments);
+  port.onMessage.addListener(listener('port from onConnect onMessage'));
+  port.postMessage({'foo': 'bar'});
+});

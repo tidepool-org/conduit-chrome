@@ -15,11 +15,15 @@
   "permissions": [
     "management",
     "*://developer.chrome.com/*",
-    "http://localhost:4545/*", "http://localhost/*"
+    "http://localhost/*"
   ],
   "externally_connectable": {
     "ids": [ "*" ],
-    "matches": [ "http://localhost/*", "*://developer.chrome.com/*" ]
+    "matches": [
+      "http://localhost/*",
+      "http://localhost:5445/*",
+      "*://developer.chrome.com/*"
+    ]
   },
   "background": {
     "scripts": ["background.js"],
@@ -29,7 +33,8 @@
     {
       "matches": [
         "*://developer.chrome.com/*",
-        "http://localhost/*"
+        "http://localhost/*",
+        "http://localhost:5445/*"
       ],
       "js": [
         "jquery.js",
