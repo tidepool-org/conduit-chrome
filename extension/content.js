@@ -32,9 +32,10 @@ function dispatcher ( ) {
           var list = $(prefix);
           var skel = $(prefix + ' li.template').clone(true);
           cmd.ports.forEach(function (p) {
-            var choice = skel.clone(true).removeClass('template');
+            var choice = skel.clone(true).removeClass('template').addClass('choice');
             choice.find('.name').text(p);
             list.append(choice);
+            choice.trigger('configure', p);
 
           });
         }
@@ -46,9 +47,20 @@ function dispatcher ( ) {
   }
   return dispatch;
 }
+
+
+(function ( ) {
+  var container = $('.tidepool-device-connect');
+  console.log('container', container);
+  container.on('configure', 'li.choice', function (ev, choice) {
+    console.log('from content script', ev, choice);
+  });
+
+})( )
 $(document).ready(function init ( ) {
   console.log('doc ready');
   // port.postMessage({type: 'version'});
+  
 });
 
 var button = $('BUTTON.tidepool-upload');
