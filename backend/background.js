@@ -19,14 +19,45 @@ chrome.runtime.onConnectExternal.addListener(function onConnect (port) {
   port.onMessage.addListener(dispatcher);
 });
 
+function runDevices (msg, port) {
+  console.log(msg, port.name);
+  var connInfo;
+  var serial = chrome.serial.connect(msg.connect, function (info) {
+    connInfo = info;
+  });
+  function toSerial (msg, port) {
+    console.log('toSerial', msg);
+    serial.send(connInfo.connectionId, msg);
+  }
+  function toChrome (info) {
+    if (info.connectionId == connInfo.connectionId) {
+      var blob = new Blob([info.data], {type: 'arraybuffer'});
+      var url = URL.createObjectURL(blob);
+      var v = new Uint8Array(info.data);
+      var view = Array.prototype.slice.apply(v);
+      console.log('data from serial', v, view, info.data.byteLength);
+      port.postMessage({type: 'data',  data: view, url: false});
+    }
+  }
+  chrome.serial.onReceive.addListener(toChrome);
+}
+
 function dispatcher (msg, port) {
+  console.log(port.name);
+  if (port.name == 'device') {
+    console.log('setting up device');
+    runDevices(msg, port)
+  }
   if (msg.cmd == 'find') {
     var r = new RegExp(msg.matches || "*");
-    function matches (elem) {
+    function whitelist (elem) {
       return elem.match(r) ? elem : null;
     }
-    chrome.serial.getPorts(function devices (devices) {
-      var matched = devices.filter(matches);
+    function paths (elem) {
+      return elem.path ? elem.path : elem
+    }
+    chrome.serial.getDevices(function devices (devices) {
+      var matched = devices.map(paths).filter(whitelist);
       port.postMessage({ports: matched});
     });
   }

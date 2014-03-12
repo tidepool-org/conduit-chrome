@@ -24,7 +24,8 @@ function dispatcher ( ) {
         return elem.isApp && elem.shortName == "conduit-chrome";
       });
       console.log('found apps', apps);
-      var master = chrome.runtime.connect(apps[0].id);
+      var app = apps[0];
+      var master = chrome.runtime.connect(app.id);
       master.onMessage.addListener(function coordinator (cmd, P) {
         console.log("XX", "list of devices??", arguments);
         if (cmd.ports) {
@@ -36,11 +37,14 @@ function dispatcher ( ) {
             choice.find('.name').text(p);
             list.append(choice);
             choice.trigger('configure', p);
+            port.postMessage({choice: p});
 
           });
+          console.log('posting configure', app.id);
+          window.postMessage({configure: app.id}, document.documentURI);
         }
       });
-      master.postMessage({cmd: "find", matches: ".*(AsantePorter|usb|USB|Carelink).*"});
+      master.postMessage({cmd: "find", matches: ".*(AsantePorter|Carelink).*"});
 
     }
 
