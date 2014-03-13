@@ -91,10 +91,27 @@ Then visit: `http://localhost:5445/`
 This was written solely in the interest of seeing some data on a page
 as quickly as possible with a bunch of newish apis.
 
+* requires [FTDI VCP driver](http://www.ftdichip.com/Drivers/VCP.htm)
+  * [with custom name](https://gist.github.com/bewest/9458012)
 * lots of commented code
 * use of `console.log`
 * several other things
 
+## User workflow
+
+1. User visits `tidepool upload website`
+1. Website invites user to install `extension` if not installed
+  1. Extension installs the `app` automatically
+
+  At this point if the user is "signed in" and the device is plugged in,
+  the UI will do stuff.  For example, maybe the button will blink every
+  time a beacon is sent.
+1. User confirms device to draw data from, profile to send data to by
+   clicking a button.  (Maybe pull down from menu if there is more
+   than one.)
+
+That's it, the website is in control of most of the experience, and
+gets notified when `AsantePump` is connected, automatically.
 
 ## License
 
