@@ -5,7 +5,7 @@ drivers implemented in javascript to serial devices connected to your
 computer.
 
 Basic idea is that after installing an extension, a webpage can upload
-data from a device connected to the computer to Tidepool.
+data to Tidepool from a device connected to the computer.
 
 ### install
 
