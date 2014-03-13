@@ -31,7 +31,7 @@ and selecting create new user for this purpose.
 ###### Run example server
 
 ```bash
-./node_modules/.bin/docpad run -p 4554
+./node_modules/.bin/docpad run -p 5445
 
 ```
 Then visit: http://localhost:5445/
@@ -82,7 +82,7 @@ microformat present on Tidepool whitelisted pages implemented by a
 There is an example static site for development/debug purposes.
 It's implemented using docpad.
 For development, use this:
-`./node_modules/.bin/docpad run -p 4554`
+`./node_modules/.bin/docpad run -p 5445`
 
 Then visit: `http://localhost:5445/`
 
