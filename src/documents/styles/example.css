@@ -7,9 +7,20 @@
 }
 
 .tidepool-device-connect .beacon {
+  -webkit-transition: background 2500ms ease-in-out;
+  -moz-transition: background 2500ms ease-in-out;
+  -ms-transition: background 2500ms ease-in-out;
+  -o-transition: background 2500ms ease-in-out;
+  transition: background 2500ms ease-in-out;
 }
 .tidepool-device-connect .beacon.received {
   /* color: green;
   */
   background: green;
+  -webkit-transition: background 2500ms ease-in-out;
+  -moz-transition: background 2500ms ease-in-out;
+  -ms-transition: background 2500ms ease-in-out;
+  -o-transition: background 2500ms ease-in-out;
+  transition: background 2500ms ease-in-out;
+
 }
