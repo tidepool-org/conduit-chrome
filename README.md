@@ -62,8 +62,10 @@ When the user visits Tidepool approved websites, when the
 the webpage's own javascript code to a message passing interface that
 allows communicating to the serial port.
 
-`extensions` are allowed install/monitor activity of other
-applications, as well as current browsing behavior.
+`extensions` are allowed install, monitor activity of, and communicate
+with other applications, as well as current browsing behavior.
+Therefore it's the extension's job to bootstrap a web page to talk to
+the `backend` whenever a legitimate webpage is being visited.
 
 #### src: `extension/`
 
