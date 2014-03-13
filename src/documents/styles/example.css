@@ -5,3 +5,11 @@
 .template {
   display: none;
 }
+
+.tidepool-device-connect .beacon {
+}
+.tidepool-device-connect .beacon.received {
+  /* color: green;
+  */
+  background: green;
+}
