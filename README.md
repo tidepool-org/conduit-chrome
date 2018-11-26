@@ -1,6 +1,8 @@
 # conduit-chrome
 
-** This repo has been deprecated. Please see https://github.com/tidepool-org/chrome-uploader/ ***
+** This repo has been deprecated. Please see https://github.com/tidepool-org/chrome-uploader/ **
+
+---
 
 Chrome extension and app to connect webpages hosting serial code
 drivers implemented in javascript to serial devices connected to your
